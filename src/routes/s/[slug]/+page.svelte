@@ -2,4 +2,4 @@
     export let data;
 </script>
 
-<p>presave slug: {data.presave.slug}</p>
+<p>campaign slug: {data.campaign.slug}</p>
