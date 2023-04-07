@@ -1,6 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -10,16 +7,58 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum QueryType {
+  ISRC,
+  UPC,
+  URL
+}
+
+enum CampaignState {
+  PENDING,
+  SUCCESS,
+  FAILURE
+}
+
+enum PlatformType {
+  SPOTIFY,
+  APPLE_MUSIC,
+  SOUNDCLOUD
+}
+
 model Artist {
-  id    Int    @id @default(autoincrement())
-  email String @unique
-  name  String?
-  presaves Presave[]
+  id        Int      @id @default(autoincrement())
+  email     String   @unique
+  name      String
+  campaigns Campaign[]
+  createdAt DateTime @default(now())
+  links     Json
+}
+
+model Campaign {
+  id         Int      @id @default(autoincrement())
+  artist     Artist   @relation(fields: [artistId], references: [id])
+  artistId   Int
+  createdAt DateTime @default(now())
+  executesAt DateTime
+  platforms Platform[] 
+  slug       String   @unique
+  links      Json     // [{"type": "link", "text": "Buy on bandcamp", "link": "https://lfav.bandcamp.com/album/isomorph"}]
+}
+
+model Platform {
+  id          Int      @id @default(autoincrement())
+  campaign    Campaign @relation(fields: [campaignId], references: [id])
+  campaignId  Int
+  platform    PlatformType
+  query       String
+  queryType   QueryType
+  state       CampaignState
+  presaves    Presave[]
 }
 
 model Presave {
-  id       Int    @id @default(autoincrement())
-  slug     String @unique
-  artist   Artist @relation(fields: [artistId], references: [id])
-  artistId Int
+  id          Int      @id @default(autoincrement())
+  platform    Platform @relation(fields: [platformId], references: [id])
+  platformId  Int
+  // for erin to care about
 }
