@@ -7,58 +7,74 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-enum QueryType {
-  ISRC,
-  UPC,
-  URL
-}
-
-enum CampaignState {
-  PENDING,
-  SUCCESS,
-  FAILURE
-}
-
 enum PlatformType {
-  SPOTIFY,
-  APPLE_MUSIC,
+  SPOTIFY
+  APPLE_MUSIC
   SOUNDCLOUD
 }
 
 model Artist {
-  id        Int      @id @default(autoincrement())
-  email     String   @unique
-  name      String
+  id           Int      @id @default(autoincrement())
+  // -- metadata
+  email        String   @unique
+  name         String
+  passwordHash Bytes
+  createdAt    DateTime @default(now())
+
+  // -- campaigns and customization
   campaigns Campaign[]
-  createdAt DateTime @default(now())
   links     Json
 }
 
 model Campaign {
   id         Int      @id @default(autoincrement())
+  // -- metadata
   artist     Artist   @relation(fields: [artistId], references: [id])
   artistId   Int
-  createdAt DateTime @default(now())
+  createdAt  DateTime @default(now())
   executesAt DateTime
-  platforms Platform[] 
-  slug       String   @unique
-  links      Json     // [{"type": "link", "text": "Buy on bandcamp", "link": "https://lfav.bandcamp.com/album/isomorph"}]
+
+  // -- customization
+  slug  String @unique
+  links Json // [{"type": "link", "text": "Buy on bandcamp", "link": "https://lfav.bandcamp.com/album/isomorph"}]
+
+  platforms PlatformCampaign[]
 }
 
-model Platform {
-  id          Int      @id @default(autoincrement())
-  campaign    Campaign @relation(fields: [campaignId], references: [id])
-  campaignId  Int
-  platform    PlatformType
-  query       String
-  queryType   QueryType
-  state       CampaignState
-  presaves    Presave[]
+enum QueryType {
+  ISRC
+  UPC
+  URL
+}
+
+enum CampaignState {
+  PENDING
+  SUCCESS
+  FAILURE
+}
+
+//  for each campaign: one of these represents platform-specific data per platform.
+model PlatformCampaign {
+  id         Int      @id @default(autoincrement())
+  // -- backref
+  campaign   Campaign @relation(fields: [campaignId], references: [id])
+  campaignId Int
+
+  platform PlatformType
+
+  // -- what do we need to do to find the song?
+  query     String
+  queryType QueryType
+
+  // campaign execution state
+  state    CampaignState
+  // presaves on this platform for the campaign
+  presaves Presave[]
 }
 
 model Presave {
-  id          Int      @id @default(autoincrement())
-  platform    Platform @relation(fields: [platformId], references: [id])
-  platformId  Int
+  id                 Int              @id @default(autoincrement())
   // for erin to care about
+  platformCampaign   PlatformCampaign @relation(fields: [platformCampaignId], references: [id])
+  platformCampaignId Int
 }
