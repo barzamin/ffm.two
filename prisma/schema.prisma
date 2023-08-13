@@ -18,7 +18,7 @@ model Artist {
   // -- metadata
   email        String   @unique
   name         String
-  passwordHash Bytes
+  passwordHash String
   createdAt    DateTime @default(now())
 
   // -- campaigns and customization
