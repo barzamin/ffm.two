@@ -7,9 +7,15 @@ sign up ! :D
 
 <form method="POST">
     {#if form?.missingName}<p class="validation-error">name required!</p>{/if}
-    {#if form?.missingEmail}<p class="validation-error">email required!</p>{/if}
-    {#if form?.missingPassword}<p class="validation-error">password required!</p>{/if}
-    {#if form?.alreadyExists}<p class="validation-error">an account with this email already exists 🤔</p>{/if}
+    {#if form?.missingEmail}
+        <p class="validation-error">email required!</p>
+    {/if}
+    {#if form?.missingPassword}
+        <p class="validation-error">password required!</p>
+    {/if}
+    {#if form?.alreadyExists}
+        <p class="validation-error">an account with this email already exists 🤔</p>
+    {/if}
 
     <div>
         <label for="name">artist name:</label>

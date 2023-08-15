@@ -28,7 +28,7 @@ export const actions: Actions = {
 
         // create session blah blah
         const tok = createSessionToken(artist);
-        ev.cookies.set('sessiontoken', tok);
+        ev.cookies.set('sessiontoken', tok, { path: '/' });
 
         return { success: true };
     },

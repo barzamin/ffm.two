@@ -41,6 +41,6 @@ export const actions: Actions = {
             throw e;
         }
 
-        throw redirect(302, '/auth/login');
+        throw redirect(302, '/backstage/auth/login');
     },
 };
