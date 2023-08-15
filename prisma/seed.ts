@@ -1,4 +1,4 @@
-import { PrismaClient } from "@prisma/client";
+import { PrismaClient } from '@prisma/client';
 
 const prisma = new PrismaClient();
 async function main() {
@@ -8,9 +8,10 @@ async function main() {
         create: {
             email: 'sonny@skrillex.com',
             name: 'Skrillex',
-            passwordHash: '$argon2id$v=19$m=65536,t=3,p=4$sCVZKas3ap61Mdw8zbtb+w$7zri1mIr2oPSUo2gH+dup065l4lQG+ZBtUXlv7uL1e4', // `wub`
+            passwordHash:
+                '$argon2id$v=19$m=65536,t=3,p=4$sCVZKas3ap61Mdw8zbtb+w$7zri1mIr2oPSUo2gH+dup065l4lQG+ZBtUXlv7uL1e4', // `wub`
             links: {},
-        }
+        },
     });
 }
 

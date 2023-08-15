@@ -3,12 +3,13 @@
     export let data: PageData;
 
     import { page } from '$app/stores';
+    import { base } from '$app/paths';
 </script>
 
 <div>
-    artists: <a href="/backstage/auth/login">login</a> | <a href="/backstage/auth/signup">signup</a>
-</div>
-
-<div>
-    artist: {$page.data.artist.name}
+    {#if $page.data.artist}
+    {:else}
+        artists: <a href="{base}/backstage/auth/login">login</a> |
+        <a href="{base}/backstage/auth/signup">signup</a>
+    {/if}
 </div>

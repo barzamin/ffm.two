@@ -7,10 +7,10 @@ export function createSessionToken(artist: Artist): string {
     return jwt.sign({ artistId: artist.id }, env.JWT_SECRET, { expiresIn: '14d' });
 }
 
-export async function sessionToUser(sessiontoken: string) {
+export async function getUserFromSession(sessionToken: string): Promise<Artist | null> {
     let token;
     try {
-        token = jwt.verify(sessiontoken, env.JWT_SECRET) as jwt.JwtPayload;
+        token = jwt.verify(sessionToken, env.JWT_SECRET) as jwt.JwtPayload;
     } catch (e) {
         return null;
     }

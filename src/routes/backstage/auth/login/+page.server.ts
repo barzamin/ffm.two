@@ -1,8 +1,18 @@
 import type { Actions } from './$types';
 import { db } from '$lib/server/db';
 import { createSessionToken } from '$lib/server/auth';
-import { fail } from '@sveltejs/kit';
+import { fail, redirect } from '@sveltejs/kit';
+import { base } from '$app/paths';
+import type { PageServerLoad } from './$types';
 import * as argon2 from 'argon2';
+
+export const load: PageServerLoad = async ({ parent }) => {
+    // check if they're already logged in
+    const { artist: sessionArtist } = await parent();
+    if (sessionArtist) {
+        throw redirect(303, `${base}/backstage`);
+    }
+};
 
 export const actions: Actions = {
     default: async (ev) => {
@@ -30,6 +40,6 @@ export const actions: Actions = {
         const tok = createSessionToken(artist);
         ev.cookies.set('sessiontoken', tok, { path: '/' });
 
-        return { success: true };
+        throw redirect(303, `${base}/backstage`);
     },
 };
