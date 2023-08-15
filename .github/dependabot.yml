@@ -1,8 +1,13 @@
 version: 2
 updates:
-  - package-ecosystem: "npm"
-    directory: "/"
-    schedule:
-      interval: "weekly"
-    commit-message:
-      prefix: "npm dep"
+    - package-ecosystem: 'npm'
+      directory: '/'
+      schedule:
+          interval: 'weekly'
+      commit-message:
+          prefix: 'npm dep'
+      groups:
+          production-dependencies:
+              dependency-type: 'production'
+          development-dependencies:
+              dependency-type: 'development'
