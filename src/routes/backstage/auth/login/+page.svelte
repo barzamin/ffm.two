@@ -1,6 +1,6 @@
-<script>
-    /** @type {import('./$types').ActionData} */
-    export let form;
+<script lang="ts">
+    import type { ActionData } from './$types';
+    export let form: ActionData;
 </script>
 
 log in 👀
