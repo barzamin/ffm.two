@@ -33,9 +33,9 @@
     },
     "type": "module",
     "dependencies": {
-        "@prisma/client": "^5.1.1",
-        "argon2": "^0.31.0",
-        "jsonwebtoken": "^9.0.1"
+        "@prisma/client": "^5.2.0",
+        "argon2": "^0.31.1",
+        "jsonwebtoken": "^9.0.2"
     },
     "prisma": {
         "seed": "node --loader ts-node/esm prisma/seed.ts"
