@@ -34,7 +34,7 @@
     "type": "module",
     "dependencies": {
         "@prisma/client": "^5.4.1",
-        "argon2": "^0.31.1",
+        "argon2": "^0.31.2",
         "jsonwebtoken": "^9.0.2"
     },
     "prisma": {
